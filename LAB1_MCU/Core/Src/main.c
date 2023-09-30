@@ -47,6 +47,7 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -60,6 +61,21 @@ void SystemClock_Config(void);
   * @brief  The application entry point.
   * @retval int
   */
+void clearAllClock()
+{
+	  HAL_GPIO_WritePin(GPIOA, L1_Pin, SET);
+	  HAL_GPIO_WritePin(GPIOA, L2_Pin, SET);
+	  HAL_GPIO_WritePin(GPIOA, L3_Pin, SET);
+	  HAL_GPIO_WritePin(GPIOA, L4_Pin, SET);
+	  HAL_GPIO_WritePin(GPIOA, L5_Pin, SET);
+	  HAL_GPIO_WritePin(GPIOA, L6_Pin, SET);
+	  HAL_GPIO_WritePin(GPIOA, L7_Pin, SET);
+	  HAL_GPIO_WritePin(GPIOA, L8_Pin, SET);
+	  HAL_GPIO_WritePin(GPIOA, L9_Pin, SET);
+	  HAL_GPIO_WritePin(GPIOA, L10_Pin, SET);
+	  HAL_GPIO_WritePin(GPIOA, L11_Pin, SET);
+	  HAL_GPIO_WritePin(GPIOA, L12_Pin, SET);
+}
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -83,6 +99,7 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
+  MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -131,6 +148,36 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+}
+
+/**
+  * @brief GPIO Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_GPIO_Init(void)
+{
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, L1_Pin|L2_Pin|L3_Pin|L4_Pin
+                          |L5_Pin|L6_Pin|L7_Pin|L8_Pin
+                          |L9_Pin|L10_Pin|L11_Pin|L12_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pins : L1_Pin L2_Pin L3_Pin L4_Pin
+                           L5_Pin L6_Pin L7_Pin L8_Pin
+                           L9_Pin L10_Pin L11_Pin L12_Pin */
+  GPIO_InitStruct.Pin = L1_Pin|L2_Pin|L3_Pin|L4_Pin
+                          |L5_Pin|L6_Pin|L7_Pin|L8_Pin
+                          |L9_Pin|L10_Pin|L11_Pin|L12_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
 }
 
 /* USER CODE BEGIN 4 */
